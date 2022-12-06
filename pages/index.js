@@ -55,7 +55,7 @@ export default function Home() {
     formData.append("title", kapital(input.title.toString()));
     formData.append("area", input.area);
     console.log(formData);
-    fetch("http://localhost:5000/api/sendemail", {
+    fetch("https://dkmail.herokuapp.com/api/sendemail", {
       method: "POST",
       body: formData,
     })
