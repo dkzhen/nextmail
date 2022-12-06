@@ -176,6 +176,7 @@ export default function Home() {
                   className="w-52"
                   width={""}
                   src={!saveImage ? "" : saveImage}
+                  alt="preview"
                 />
               </div>
               <div className="mt-2">Your preview files in here :) </div>
@@ -195,6 +196,7 @@ export default function Home() {
             src={`/images/photo${random_item(item)}.jpeg`}
             width={384}
             height={384}
+            alt="hero"
           />
         </div>
       </div>
