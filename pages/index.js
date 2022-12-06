@@ -183,7 +183,7 @@ export default function Home() {
             </div>
           </div>
           <div className="hidden lg:flex flex-col pl-5 font-roboto text-3xl font-bold">
-            <p>Don't let</p> <p>feedback slow</p>
+            <p>Dont let</p> <p>feedback slow</p>
             <p>you down</p>
             <p className="text-lg font-normal">
               Now you can send anything in here
