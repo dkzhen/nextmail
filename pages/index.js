@@ -2,8 +2,10 @@ import Head from "next/head";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import Image from "next/image";
 
 export default function Home() {
+  const item = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   const MySwal = withReactContent(Swal);
   const [isLoading, setIsloading] = useState(false);
   const [saveImage, setSaveImage] = useState(null);
@@ -13,6 +15,10 @@ export default function Home() {
     title: "",
     area: "",
   });
+
+  function random_item(items) {
+    return items[Math.floor(Math.random() * items.length)];
+  }
   const handleForm = (e) => {
     setInput((values) => ({
       ...values,
@@ -166,7 +172,11 @@ export default function Home() {
               }`}
             >
               <div className="mt-5  flex mx-auto justify-center items-center px-2  border-2 border-black rounded-lg ">
-                <img className="w-52" src={saveImage} />
+                <Image
+                  className="w-52"
+                  width={""}
+                  src={!saveImage ? "" : saveImage}
+                />
               </div>
               <div className="mt-2">Your preview files in here :) </div>
             </div>
@@ -180,9 +190,11 @@ export default function Home() {
           </div>
         </div>
         <div className="hidden lg:flex ml-20">
-          <img
-            className="w-96 rounded-tl-full rounded-bl-full"
-            src={`https://source.unsplash.com/random/?nature`}
+          <Image
+            className=" rounded-tl-full rounded-bl-full"
+            src={`/images/photo${random_item(item)}.jpeg`}
+            width={384}
+            height={384}
           />
         </div>
       </div>
