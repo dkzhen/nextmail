@@ -61,12 +61,10 @@ export default function Home() {
     }
     const fileSize = (size / 1000).toFixed(2);
     const fileNameAndSize = name + " " + -+" " + fileSize + " KB";
-    console.log(fileNameAndSize);
   }
 
   function uploadData(e) {
     e.preventDefault();
-    setIsloading(true);
     function kapital(str) {
       return str.replace(/\w\S*/g, function (txt) {
         return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
@@ -86,35 +84,47 @@ export default function Home() {
     formData.append("email", input.email);
     formData.append("title", kapital(input.title.toString()));
     formData.append("area", input.area);
-
-    console.log(formData);
-    fetch("https://mailexpress.onrender.com/api/sendemail", {
-      method: "POST",
-      body: formData,
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.status === "success") {
-          setIsloading(false);
-          MySwal.fire({
-            title: "Berhasil!",
-
-            text: "Send message success :)",
-
-            icon: "success",
+    !input.email
+      ? MySwal.fire(
+          "there is something wrong?",
+          "Please enter your email!",
+          "question"
+        )
+      : setIsloading(true)
+      ? setIsloading(true)
+      : fetch("https://mailexpress.onrender.com/api/sendemail", {
+          method: "POST",
+          body: formData,
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.status === "success") {
+              setIsloading(false);
+              MySwal.fire({
+                title: "Berhasil!",
+                text: "Send message success :)",
+                icon: "success",
+                confirmButtonText: "OK",
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  window.location.reload();
+                }
+              });
+            }
+          })
+          .catch((err) => {
+            setIsloading(false);
+            MySwal.fire({
+              title: "Gagal!",
+              text: "Send message failed!",
+              icon: "error",
+              confirmButtonText: "OK",
+            }).then((result) => {
+              if (result.isConfirmed) {
+                window.location.reload();
+              }
+            });
           });
-        }
-      })
-      .catch((err) => {
-        setIsloading(false);
-        MySwal.fire({
-          title: "Gagal!",
-
-          text: "Data gagal dikirim",
-
-          icon: "error",
-        });
-      });
   }
   return (
     <div>
