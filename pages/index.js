@@ -8,7 +8,8 @@ export default function Home() {
   const item = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   const MySwal = withReactContent(Swal);
   const [isLoading, setIsloading] = useState(false);
-  const [saveImage, setSaveImage] = useState(null);
+  const [saveImage, setSaveImage] = useState("/images/fake.png");
+  const [tipe, setTipe] = useState(false);
   const [image, setImage] = useState(null);
   const [input, setInput] = useState({
     email: "",
@@ -42,8 +43,25 @@ export default function Home() {
 
   function handleUpload(e) {
     let uploaded = e.target.files[0];
-    setImage(uploaded);
-    setSaveImage(URL.createObjectURL(uploaded));
+    if (!uploaded) {
+      setImage("");
+    } else {
+      setImage(uploaded);
+    }
+
+    let tipe = uploaded.type;
+    let name = uploaded.name;
+    let size = uploaded.size;
+    if (tipe === "") {
+      setSaveImage("/images/file.png");
+      setTipe(true);
+    } else {
+      setSaveImage(URL.createObjectURL(uploaded));
+      setTipe(false);
+    }
+    const fileSize = (size / 1000).toFixed(2);
+    const fileNameAndSize = name + " " + -+" " + fileSize + " KB";
+    console.log(fileNameAndSize);
   }
 
   function uploadData(e) {
@@ -54,14 +72,23 @@ export default function Home() {
         return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
       });
     }
+    const pathDefault =
+      "https://source.unsplash.com/random/?naturehttps://images.unsplash.com/photo-1420593248178-d88870618ca0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxfDB8MXxyYW5kb218MHx8bmF0dXJlfHx8fHx8MTY3MDM4Njk0Mw&ixlib=rb-4.0.3&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=1080";
+    const blob = fetch(pathDefault).then((it) => it.blob());
+    const file = new File([blob], "defaultFile.jpg", {
+      type: "image/jpeg",
+      lastModified: new Date(),
+    });
 
     let formData = new FormData();
-    formData.append("image", image);
+    const newImage = !image ? file : image;
+    formData.append("image", newImage);
     formData.append("email", input.email);
     formData.append("title", kapital(input.title.toString()));
     formData.append("area", input.area);
+
     console.log(formData);
-    fetch("https://dkmail.herokuapp.com/api/sendemail", {
+    fetch("http://localhost:5000/api/sendemail", {
       method: "POST",
       body: formData,
     })
@@ -72,11 +99,21 @@ export default function Home() {
           MySwal.fire({
             title: "Berhasil!",
 
-            text: "Data berhasil dikirim",
+            text: "Send message success :)",
 
             icon: "success",
           });
         }
+      })
+      .catch((err) => {
+        setIsloading(false);
+        MySwal.fire({
+          title: "Gagal!",
+
+          text: "Data gagal dikirim",
+
+          icon: "error",
+        });
       });
   }
   return (
@@ -107,6 +144,7 @@ export default function Home() {
                 type="text"
                 name="email"
                 onChange={handleForm}
+                required
                 className="h-full w-full border-gray-300 px-2 transition-all border-blue rounded-sm"
               />
               <label
@@ -171,15 +209,18 @@ export default function Home() {
                   : "flex md:hidden flex-col  mx-auto justify-center items-center"
               }`}
             >
-              <div className="mt-5  flex mx-auto justify-center items-center px-2  border-2 border-black rounded-lg ">
+              <div className="mt-5  flex mx-auto justify-center items-stretch px-2  border-2 border-black rounded-lg ">
                 <Image
-                  className="w-52"
-                  width={""}
-                  src={!saveImage ? "" : saveImage}
+                  className=""
+                  src={saveImage}
                   alt="preview"
+                  width={150}
+                  height={150}
                 />
               </div>
-              <div className="mt-2">Your preview files in here :) </div>
+              <div className="mt-2">
+                Your preview {!tipe ? "Image" : "File"} in here :){" "}
+              </div>
             </div>
           </div>
           <div className="hidden lg:flex flex-col pl-5 font-roboto text-3xl font-bold">
@@ -193,7 +234,11 @@ export default function Home() {
         <div className="hidden lg:flex ml-20">
           <Image
             className=" rounded-tl-full rounded-bl-full"
-            src={`/images/photo${random_item(item)}.jpeg`}
+            src={`${
+              saveImage
+                ? "/images/photo1.jpeg"
+                : "/images/photo${random_item(item)}.jpeg"
+            }`}
             width={384}
             height={384}
             alt="hero"

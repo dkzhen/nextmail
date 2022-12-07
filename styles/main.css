@@ -574,6 +574,12 @@ input:focus {
 .mt-2 {
   margin-top: 0.5rem;
 }
+.ml-3 {
+  margin-left: 0.75rem;
+}
+.ml-5 {
+  margin-left: 1.25rem;
+}
 .inline {
   display: inline;
 }
@@ -648,6 +654,9 @@ input:focus {
 }
 .items-center {
   align-items: center;
+}
+.items-stretch {
+  align-items: stretch;
 }
 .justify-center {
   justify-content: center;
@@ -748,6 +757,30 @@ input:focus {
 .py-20 {
   padding-top: 5rem;
   padding-bottom: 5rem;
+}
+.px-5 {
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+}
+.px-20 {
+  padding-left: 5rem;
+  padding-right: 5rem;
+}
+.px-10 {
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
+}
+.px-14 {
+  padding-left: 3.5rem;
+  padding-right: 3.5rem;
+}
+.px-12 {
+  padding-left: 3rem;
+  padding-right: 3rem;
+}
+.px-3 {
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
 }
 .pt-5 {
   padding-top: 1.25rem;
