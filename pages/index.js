@@ -211,11 +211,11 @@ export default function Home() {
             >
               <div className="mt-5  flex mx-auto justify-center items-stretch px-2  border-2 border-black rounded-lg ">
                 <Image
-                  className="w-[120px] h-[120px] object-contain"
+                  className="w-[150px] h-[150px] object-contain"
                   src={saveImage}
                   alt="preview"
-                  width={120}
-                  height={120}
+                  width={150}
+                  height={150}
                 />
               </div>
               <div className="mt-2">
