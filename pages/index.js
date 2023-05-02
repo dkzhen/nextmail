@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import Image from "next/image";
+require("dotenv").config();
 
 export default function Home() {
   const item = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
@@ -84,7 +85,8 @@ export default function Home() {
     formData.append("email", input.email);
     formData.append("title", kapital(input.title.toString()));
     formData.append("area", input.area);
-    !input.email
+
+    !input.email || valid == false
       ? MySwal.fire(
           "there is something wrong?",
           "Please enter your email!",
@@ -92,7 +94,7 @@ export default function Home() {
         )
       : setIsloading(true)
       ? setIsloading(true)
-      : fetch("https://mailexpress.onrender.com/api/sendemail", {
+      : fetch(process.env.HOST, {
           method: "POST",
           body: formData,
         })
@@ -151,7 +153,7 @@ export default function Home() {
             <div className="relative h-10 input-component empty mb-5">
               <input
                 id="email"
-                type="text"
+                type="email"
                 name="email"
                 onChange={handleForm}
                 required
@@ -244,11 +246,7 @@ export default function Home() {
         <div className="hidden lg:flex ml-20">
           <Image
             className=" rounded-tl-full rounded-bl-full"
-            src={`${
-              saveImage
-                ? "/images/photo1.jpeg"
-                : "/images/photo${random_item(item)}.jpeg"
-            }`}
+            src={`/images/photo${!saveImage ? "1" : random_item(item)}.jpeg`}
             width={384}
             height={384}
             alt="hero"
