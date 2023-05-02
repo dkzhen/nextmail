@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import Image from "next/image";
-require("dotenv").config();
 
 export default function Home() {
   const item = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
