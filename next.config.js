@@ -1,4 +1,5 @@
 /** @type {import('next').NextConfig} */
+require("dotenv").config();
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
@@ -12,6 +13,9 @@ const nextConfig = {
         pathname: "/random/?nature",
       },
     ],
+  },
+  env: {
+    URL: process.env.URL,
   },
 };
 
