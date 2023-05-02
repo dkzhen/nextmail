@@ -85,7 +85,7 @@ export default function Home() {
     formData.append("title", kapital(input.title.toString()));
     formData.append("area", input.area);
 
-    !input.email || valid == false
+    !input.email == true
       ? MySwal.fire(
           "there is something wrong?",
           "Please enter your email!",
@@ -93,7 +93,7 @@ export default function Home() {
         )
       : setIsloading(true)
       ? setIsloading(true)
-      : fetch(process.env.HOST, {
+      : fetch(process.env.URL, {
           method: "POST",
           body: formData,
         })
